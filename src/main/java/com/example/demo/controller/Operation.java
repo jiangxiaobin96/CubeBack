@@ -85,4 +85,11 @@ public class Operation {
 //        continueSearch(scrambledCube);
         return result;
     }
+
+    @RequestMapping(value = "/scramble",method = RequestMethod.GET)
+    public String scrambleCube(){
+        String r = Tools.randomCube();
+        System.out.println(r);
+        return r;
+    }
 }
