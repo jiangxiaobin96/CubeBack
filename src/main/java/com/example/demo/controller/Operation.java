@@ -4,9 +4,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.controller.Search;
 
 @RestController
 public class Operation {
+
+    Search search = new Search();
 
     public static String findShorterSolutions(String scrambledCube) {
         //Find shorter solutions (try more probes even a solution has already been found)
@@ -68,18 +71,53 @@ public class Operation {
 
 //        simpleSolve(scrambledCube);
 //        String res = outputControl(scrambledCube);
-        String res = findShorterSolutions(initC);
-        res = res.toLowerCase();
-
-        char[] c = res.toCharArray();
         String result = "";
-        for(int i=0;i<c.length;i++){
-            if(c[i] <= 'z' && c[i] >= 'a') result += c[i];
-            if(c[i] == '\'') result += c[i];
-            if(c[i] == '2') result += c[i-1];
+//        int check = search.verify(initC);
+//        System.out.println("check:"+check);
+        String res = findShorterSolutions(initC);
+        System.out.println(res);
+        if (res.contains("Error")) {
+            System.out.println("进入");
+            switch (res.charAt(res.length() - 1)) {
+                case '1':
+                    result = "Error:There are not exactly nine facelets of each color!";
+//                    break;
+                case '2':
+                    result = "Error:Not all 12 edges exist exactly once!";
+//                    break;
+                case '3':
+                    result = "Error:Flip error One edge has to be flipped!";
+//                    break;
+                case '4':
+                    result = "Error:Not all 8 corners exist exactly once!";
+//                    break;
+                case '5':
+                    result = "Error:Twist error One corner has to be twisted!";
+//                    break;
+                case '6':
+                    result = "Error:Parity error Two corners or two edges have to be exchanged!";
+//                    break;
+                case '7':
+                    result = "Error:No solution exists for the given maximum move number!";
+//                    break;
+                case '8':
+                    result = "Error:Timeout, no solution found within given maximum time!";
+//                    break;
+            }
+            System.out.println(result);
+        }else{
+            res = res.toLowerCase();
+
+            char[] c = res.toCharArray();
+
+            for(int i=0;i<c.length;i++){
+                if(c[i] <= 'z' && c[i] >= 'a') result += c[i];
+                if(c[i] == '\'') result += c[i];
+                if(c[i] == '2') result += c[i-1];
+            }
+//            System.out.println("res:"+res);
+            System.out.println("result:"+result);
         }
-        System.out.println("res:"+res);
-        System.out.println("result:"+result);
 
 //        findShorterSolutions(scrambledCube);
 //        continueSearch(scrambledCube);
