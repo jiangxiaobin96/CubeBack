@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.demo.controller.Search;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@CrossOrigin
 @RestController
 public class Operation {
 
@@ -129,5 +130,53 @@ public class Operation {
         String r = Tools.randomCube();
         System.out.println(r);
         return r;
+    }
+
+    @RequestMapping(value = "/ways",method = RequestMethod.POST)
+    public String feasibleSolution(String initC){
+//        List<String> list = new ArrayList<>();
+        String result = "";
+//        int check = search.verify(initC);
+//        System.out.println("check:"+check);
+        String res = findShorterSolutions(initC);
+        System.out.println(res);
+        if (!res.contains("Error")) {
+            res = res.toLowerCase();
+
+            char[] c = res.toCharArray();
+
+            for(int i=0;i<c.length;i++){
+                if(c[i] <= 'z' && c[i] >= 'a') result += c[i];
+                if(c[i] == '\'') result += c[i];
+                if(c[i] == '2') result += c[i-1];
+            }
+//            list.add(result);
+        }
+
+//        result = "";
+////        int check = search.verify(initC);
+////        System.out.println("check:"+check);
+//        res = outputControl(initC);
+//        System.out.println(res);
+//        if (!res.contains("Error")) {
+//            res = res.toLowerCase();
+//
+//            char[] c = res.toCharArray();
+//
+//            for(int i=0;i<c.length;i++){
+//                if(c[i] <= 'z' && c[i] >= 'a') result += c[i];
+//                if(c[i] == '\'') result += c[i];
+//                if(c[i] == '2') result += c[i-1];
+//                if(c[i] == '(') break;
+//            }
+//            list.add(result);
+//        }
+        return result;
+    }
+
+    @RequestMapping(value = "/test")
+    public String hello(){
+        String s = "test success";
+        return s;
     }
 }
